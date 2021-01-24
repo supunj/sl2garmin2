@@ -1,0 +1,34 @@
+product-id: 1
+family-id: 53130
+series-name: Transport
+family-name: Sri_Lanka_Routes_OSM
+draw-priority: 20
+code-page: 1252
+keep-going
+transparent
+reduce-point-density: 4
+reduce-point-density-polygon: 8
+add-pois-to-lines
+add-pois-to-areas
+route
+drive-on=left
+country-name: Sri_Lanka
+country-abbr: SL
+region-name: South_Asia
+region-abbr: SA
+area-name: Sri_Lanka
+lower-case
+location-autofill: is_in,nearest
+housenumbers
+remove-ovm-work-files
+poi-address
+no-tdbfile
+link-pois-to-ways
+process-destination
+process-exits
+check-roundabouts
+check-roundabout-flares
+report-similar-arcs
+report-dead-ends: 2
+order-by-decreasing-area
+latin1

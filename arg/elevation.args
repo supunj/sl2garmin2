@@ -1,0 +1,24 @@
+product-id: 1
+family-id: 53130
+series-name: Contour
+draw-priority: 20
+transparent
+country-name: Sri_Lanka
+country-abbr: SL
+region-name: South_Asia
+region-abbr: SA
+family-name: Sri_Lanka_Contours
+area-name: Sri_Lanka
+code-page: 1252
+lower-case
+keep-going
+verbose
+remove-ovm-work-files
+no-tdbfile
+#dem-dists: 9942,9942,9942,13248,44176
+show-profiles: 1
+dem-dists: 3312,3312,13248,26512,53024
+dem-interpolation: bicubic
+overview-dem-dist: 88368
+order-by-decreasing-area
+generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-gaps=10,floodblocker,fbdebug
