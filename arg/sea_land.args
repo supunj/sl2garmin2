@@ -18,7 +18,8 @@ order-by-decreasing-area
 preserve-element-order
 #dem-dists: 9942,9942,9942,13248,44176
 show-profiles: 1
-dem-dists: 3312,3312,13248,26512,53024
+#dem-dists: 3312,3312,13248,26512,53024
+dem-dists=9942,9942,19884,39768,53024,53024
 dem-interpolation: bicubic
 overview-dem-dist: 88368
 order-by-decreasing-area
