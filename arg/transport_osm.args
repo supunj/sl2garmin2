@@ -32,3 +32,6 @@ report-similar-arcs
 report-dead-ends: 2
 order-by-decreasing-area
 latin1
+index
+split-name-index
+preserve-element-order
