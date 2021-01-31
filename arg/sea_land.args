@@ -11,9 +11,7 @@ area-name: Sri_Lanka
 code-page: 1252
 lower-case
 keep-going
-verbose
-remove-ovm-work-files
-no-tdbfile
+#verbose
 order-by-decreasing-area
 preserve-element-order
 #dem-dists: 9942,9942,9942,13248,44176
@@ -24,3 +22,5 @@ dem-interpolation: bicubic
 overview-dem-dist: 88368
 order-by-decreasing-area
 generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-gaps=10,floodblocker,fbdebug
+order-by-decreasing-area
+no-tdbfile

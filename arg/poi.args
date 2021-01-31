@@ -12,12 +12,7 @@ region-name: South_Asia
 region-abbr: SA
 area-name: Sri_Lanka
 lower-case
-remove-ovm-work-files
-no-tdbfile
 order-by-decreasing-area
 latin1
-order-by-decreasing-area
-latin1
-index
-split-name-index
 preserve-element-order
+no-tdbfile
