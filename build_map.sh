@@ -80,7 +80,7 @@ function all_in_one()
         	--tf accept-relations \
         	--used-node \
         	--write-pbf $TEMP_LOC/sri-lanka-latest-poi-less.osm.pbf
-	echo "Extracting the lines and relations...done."
+	echo "Extracting the lines and relations...done."	
 	
 	echo 'Splitting....'
 	cd $MAP_ROOT/tmp/split
@@ -90,10 +90,33 @@ function all_in_one()
 	echo 'Splitting done.'
 	cd $MAP_ROOT
 	
+	echo "Extracting POIs..."
+        $OSMOSIS \
+        	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
+        	--tf accept-nodes \
+        		amenity=* \
+        		tourism=* \
+        		highway=* \
+        		leisure=* \
+        		historic=* \
+        		natural=* \
+        		railway=* \
+        		shop=* \
+        		public_transport=* \
+        		barrier=* \
+        		man_made=* \
+        		landmark=* \
+        		sport=* \
+        		place=* \
+        		healthcare=* \
+        	--tf reject-ways \
+        	--tf reject-relations \
+        	--write-pbf $MAP_ROOT/tmp/split/sri-lanka-latest-poi.osm.pbf
+	echo "Extracting POIs...done."
+	
 	echo "Copying SRTM data...."
 	cp $MAP_ROOT/maps/srtm/*.osm.pbf $MAP_ROOT/tmp/split
-	
-	
+		
 	cd $IMG_LOC
 	echo 'Building all in one map....'
 	IMG_FILE_NAME="`shuf -i 10000000-99999999 -n 1`"
@@ -186,6 +209,8 @@ function build_pois()
         		landmark=* \
         		natural=* \
         		sport=* \
+        		place=* \
+        		healthcare=* \
         	--tf reject-ways \
         	--tf reject-relations \
         	--write-pbf $TEMP_LOC/sri-lanka-latest-poi.osm.pbf

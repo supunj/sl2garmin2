@@ -8,71 +8,44 @@ function prepare()
 	MAP_ROOT=$(dirname $(readlink -f $0))
 	TEMP_LOC=$MAP_ROOT/tmp
 	OSMOSIS_LOC=$MAP_ROOT/tools/osmosis-0.48.3
-	OSMOSIS=$OSMOSIS_LOC/bin/osmosis
+	OSMOSIS=$OSMOSIS_LOC/bin/osmosis	
+	SOURCE_MAP_NAME=sri-lanka-latest.osm.pbf
 	
-	rm -rf $TEMP_LOC/gpi	
+	rm -rf $TEMP_LOC/gpi
+	rm -rf $TEMP_LOC/poi
   	mkdir -p $TEMP_LOC/gpi
   	mkdir -p $TEMP_LOC/poi
 	
-	SOURCE_MAP_NAME=sri-lanka-latest.osm.pbf
+	echo "Extracting POIs..."
+        $OSMOSIS \
+        	--read-pbf-fast file=$MAP_ROOT/maps/$SOURCE_MAP_NAME \
+        	--tf accept-nodes \
+        	--tf reject-ways \
+        	--tf reject-relations \
+        	--write-pbf $TEMP_LOC/sri-lanka-latest-poi.osm.pbf
+	echo "Extracting POIs...done."
 }
 
 function create_gpi()
 {	
 	for tag in $(cat $MAP_ROOT/tags.conf)
         do
-                echo "Extracting POIs - $tag"
+                echo "Extracting POIs - $tag"                
+                tag_string=(${tag//=/ })
                 $OSMOSIS \
-                	--read-pbf file=$TEMP_LOC/sri-lanka-latest.osm.pbf \
+                	--read-pbf file=$TEMP_LOC/sri-lanka-latest-poi.osm.pbf \
                 	--tf reject-ways \
                 	--tf reject-relations \
                 	--tf accept-nodes \
-                	--node-key-value keyValueList="$tag" \
-                	--write-xml $TEMP_LOC/poi/sri-lanka-latest.osm_$tag.osm
+                	--node-key-value keyValueList="${tag_string[1]}" \
+                	--write-xml $TEMP_LOC/poi/sri-lanka-latest.osm_${tag_string[0]}.osm                
 		gpsbabel \
 			-i osm \
-			-f $TEMP_LOC/poi/sri-lanka-latest.osm_$tag.osm \
-			-o garmin_gpi,category=$tag,bitmap=$MAP_ROOT/icons/$tag.bmp \
-			-F $TEMP_LOC/gpi/$tag.gpi
+			-f $TEMP_LOC/poi/sri-lanka-latest.osm_${tag_string[0]}.osm \
+			-o garmin_gpi,category=${tag_string[0]},bitmap=$MAP_ROOT/icons/${tag_string[0]}.bmp \
+			-F $TEMP_LOC/gpi/${tag_string[0]}.gpi
         done	
 	echo "Done!"
-
-
-	$OSMOSIS \
-		--read-pbf file=$TEMP_LOC/$SOURCE_MAP_NAME \
-		--tf reject-ways \
-		--tf reject-relations \
-		--node-key-value keyValueList="amenity.school" \
-		--write-xml file=$TEMP_LOC/school.osm
-	gpsbabel \
-		-i osm \
-		-f $TEMP_LOC/school.osm \
-		-o garmin_gpi,category="Schools",alerts=1,proximity=1km \
-		-F $TEMP_LOC/gpi/school.gpi
-
-	$OSMOSIS \
-		--read-pbf file=$TEMP_LOC/$SOURCE_MAP_NAME \
-		--tf reject-ways \
-		--tf reject-relations \
-		--node-key-value keyValueList="amenity.police" \
-		--write-xml file=$TEMP_LOC/police.osm
-	gpsbabel \
-		-i osm \
-		-f $TEMP_LOC/police.osm \
-		-o garmin_gpi,category="Police",alerts=1,proximity=3km \
-		-F $TEMP_LOC/gpi/police.gpi
-
-	$OSMOSIS \
-		--read-pbf file=$TEMP_LOC/$SOURCE_MAP_NAME \
-		--tf reject-ways \
-		--tf reject-relations \
-		--node-key-value keyValueList="highway.traffic_signals" \
-		--write-xml file=$TEMP_LOC/signals.osm
-	gpsbabel \
-		-i osm \
-		-f $TEMP_LOC/signals.osm \
-		-o garmin_gpi,category="Traffic Lights",alerts=1,proximity=0.5km \
-		-F $TEMP_LOC/gpi/signals.gpi
 }
 
 prepare
