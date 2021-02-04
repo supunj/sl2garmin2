@@ -31,21 +31,30 @@ function create_gpi()
 	for tag in $(cat $MAP_ROOT/tags.conf)
         do
                 echo "Extracting POIs - $tag"                
-                tag_string=(${tag//=/ })
+                tag_string=(${tag//:/ })
                 $OSMOSIS \
                 	--read-pbf file=$TEMP_LOC/sri-lanka-latest-poi.osm.pbf \
                 	--tf reject-ways \
                 	--tf reject-relations \
                 	--tf accept-nodes \
                 	--node-key-value keyValueList="${tag_string[1]}" \
-                	--write-xml $TEMP_LOC/poi/sri-lanka-latest.osm_${tag_string[0]}.osm                
-		gpsbabel \
-			-i osm \
-			-f $TEMP_LOC/poi/sri-lanka-latest.osm_${tag_string[0]}.osm \
-			-o garmin_gpi,category=${tag_string[0]},bitmap=$MAP_ROOT/icons/${tag_string[0]}.bmp \
-			-F $TEMP_LOC/gpi/${tag_string[0]}.gpi
-        done	
-	echo "Done!"
+                	--write-xml $TEMP_LOC/poi/sri-lanka-latest.osm_${tag_string[0]}.osm
+                	
+                if [ "${tag_string[2]}" == '' ]
+                then
+	    		gpsbabel \
+				-i osm \
+				-f $TEMP_LOC/poi/sri-lanka-latest.osm_${tag_string[0]}.osm \
+				-o garmin_gpi,descr,category=${tag_string[0]},bitmap=$MAP_ROOT/icons/${tag_string[0]}.bmp \
+				-F $TEMP_LOC/gpi/${tag_string[0]}.gpi
+		else
+    			gpsbabel \
+				-i osm \
+				-f $TEMP_LOC/poi/sri-lanka-latest.osm_${tag_string[0]}.osm \
+				-o garmin_gpi,descr,category=${tag_string[0]},bitmap=$MAP_ROOT/icons/${tag_string[0]}.bmp,${tag_string[2]} \
+				-F $TEMP_LOC/gpi/${tag_string[0]}.gpi
+		fi
+        done
 }
 
 prepare

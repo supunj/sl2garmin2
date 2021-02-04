@@ -15,23 +15,17 @@ function prepare()
 	OSMOSIS_LOC=$MAP_ROOT/tools/osmosis-0.48.3
 	OSMOSIS=$OSMOSIS_LOC/bin/osmosis
 	SPLITTER=$MAP_ROOT/tools/splitter-r597/splitter.jar
-	STYLE_TRANSPORT=sl
-	STYLE_CONTOURS=sl
 	STYLE_SL=sl
 	TYP_FILE=$MAP_ROOT/typ/os50_mod.typ
-	#TYP_FILE=$MAP_ROOT/typ/test.typ
 
 	export MKGMAP_JAVACMD=/usr/bin/java
 	export MKGMAP_JAVACMD_OPTIONS="-Xmx4096M -jar -enableassertions"
 
 	rm -rf $TEMP_LOC
-	mkdir -p $TEMP_LOC/poi
-	mkdir -p $TEMP_LOC/typ
 	mkdir -p $IMG_LOC/mapset
 	mkdir -p $MAP_ROOT/tmp/split
 	
 	SOURCE_MAP_NAME=sri-lanka-latest.osm.pbf
-	#SOURCE_MAP_NAME=sri-lanka-latest.osm.pbf.temp
 	
 	#Download if map does not exists
 	if [ -f "$MAP_ROOT/maps/$SOURCE_MAP_NAME" ]; then
@@ -42,206 +36,96 @@ function prepare()
 	fi
 }
 
-function build_sea_and_the_land()
+function build_base_map()
 {
 	echo "Extracting the coastline..."
-        $OSMOSIS \
-        	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
-        	--way-key-value keyValueList="natural.coastline" \
-        	--tf reject-relations \
-        	--used-node \
-        	--write-pbf $TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
-	echo "Extracting the coastline...done."
-	
+	$OSMOSIS \
+		--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
+		--way-key-value keyValueList="natural.coastline" \
+		--tf reject-relations \
+		--used-node \
+		--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
+		--write-pbf $TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
+
 	cd $IMG_LOC
-	
-	echo 'Sea and the land....'
+	echo 'Building base map....'
 	IMG_FILE_NAME="`shuf -i 10000000-99999999 -n 1`"
 	$MKGMAP_JAVACMD \
 	$MKGMAP_JAVACMD_OPTIONS \
 	$MKGMAP \
 		-c $MAP_ROOT/arg/sea_land.args \
 		--dem=$MAP_ROOT/hgt \
-		--description="Sea and the land" \
-		--mapname=$IMG_FILE_NAME \
-		--style-file=$MAP_ROOT/style \
-		--style=$STYLE_CONTOURS \
-		$TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
-	echo 'Sea and the land........done'
-	cd $MAP_ROOT
-}
-
-function all_in_one()
-{
-	echo "Extracting the lines and relations..."
-        $OSMOSIS \
-        	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
-        	--tf accept-ways \
-        	--tf accept-relations \
-        	--used-node \
-        	--write-pbf $TEMP_LOC/sri-lanka-latest-poi-less.osm.pbf
-	echo "Extracting the lines and relations...done."	
-	
-	echo 'Splitting....'
-	cd $MAP_ROOT/tmp/split
-	$MKGMAP_JAVACMD \
-	$MKGMAP_JAVACMD_OPTIONS \
-	$SPLITTER $TEMP_LOC/sri-lanka-latest-poi-less.osm.pbf
-	echo 'Splitting done.'
-	cd $MAP_ROOT
-	
-	echo "Extracting POIs..."
-        $OSMOSIS \
-        	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
-        	--tf accept-nodes \
-        		amenity=* \
-        		tourism=* \
-        		highway=* \
-        		leisure=* \
-        		historic=* \
-        		natural=* \
-        		railway=* \
-        		shop=* \
-        		public_transport=* \
-        		barrier=* \
-        		man_made=* \
-        		landmark=* \
-        		sport=* \
-        		place=* \
-        		healthcare=* \
-        	--tf reject-ways \
-        	--tf reject-relations \
-        	--write-pbf $MAP_ROOT/tmp/split/sri-lanka-latest-poi.osm.pbf
-	echo "Extracting POIs...done."
-	
-	echo "Copying SRTM data...."
-	cp $MAP_ROOT/maps/srtm/*.osm.pbf $MAP_ROOT/tmp/split
-		
-	cd $IMG_LOC
-	echo 'Building all in one map....'
-	IMG_FILE_NAME="`shuf -i 10000000-99999999 -n 1`"
-	$MKGMAP_JAVACMD \
-	$MKGMAP_JAVACMD_OPTIONS \
-	$MKGMAP \
-		-c $MAP_ROOT/arg/all_in_one.args \
-		--dem=$MAP_ROOT/hgt \
-		--description="Sea, land and the roads" \
+		--dem-poly=$MAP_ROOT/sri-lanka.poly \
+		--description="Sri Lanka Base Map" \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
 		--style=$STYLE_SL \
-		$MAP_ROOT/tmp/split/*.osm.pbf \
-		$TYP_FILE
-	echo 'Building all in one map....done'
+		$TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
 	cd $MAP_ROOT
 }
 
 function build_contour_lines()
 {
+	echo 'Splitting contour lines....'
+	rm $MAP_ROOT/tmp/split/*
+	cd $MAP_ROOT/tmp/split
+	$MKGMAP_JAVACMD \
+	$MKGMAP_JAVACMD_OPTIONS \
+	$SPLITTER $MAP_ROOT/maps/sl-contours.osm.pbf
+	cd $MAP_ROOT
+	
 	cd $IMG_LOC
-	echo 'Generating contour lines....'
+	echo 'Building contour map....'
 	IMG_FILE_NAME="`shuf -i 10000000-99999999 -n 1`"
 	$MKGMAP_JAVACMD \
 	$MKGMAP_JAVACMD_OPTIONS \
 	$MKGMAP \
 		-c $MAP_ROOT/arg/elevation.args \
-		--description=Contours \
+		--description="Sri Lanka Contour Lines" \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
-		--style=$STYLE_CONTOURS \
-		$MAP_ROOT/maps/srtm/*.osm.pbf
-	echo 'Generating contour lines....done'
+		--style=$STYLE_SL \
+		$MAP_ROOT/tmp/split/*.osm.pbf
 	cd $MAP_ROOT
 }
 
-function build_roads_and_areas()
+function build_ways_relations_pois()
 {
-	echo "Extracting ways and polygons..."
+	echo "Removing the coast..."
         $OSMOSIS \
         	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
-        	--tf accept-ways \
         	--tf reject-ways natural=coastline \
-        	--tf accept-relations \
-        	--used-node \
-        	--write-pbf $TEMP_LOC/sri-lanka-latest-transport.osm.pbf
-	echo "Extracting ways and polygons...done."
+        	--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
+        	--write-pbf $TEMP_LOC/sri-lanka-latest-no-coast.osm.pbf
 	
 	echo 'Splitting....'
+	rm $MAP_ROOT/tmp/split/*
 	cd $MAP_ROOT/tmp/split
 	$MKGMAP_JAVACMD \
 	$MKGMAP_JAVACMD_OPTIONS \
-	$SPLITTER $TEMP_LOC/sri-lanka-latest-transport.osm.pbf
-	echo 'Splitting done.'
+	$SPLITTER \
+		$TEMP_LOC/sri-lanka-latest-no-coast.osm.pbf	
 	cd $MAP_ROOT
 	
 	cd $IMG_LOC
-	echo 'Generating transport map....'
+	echo 'Building....'
 	IMG_FILE_NAME="`shuf -i 10000000-99999999 -n 1`"
 	$MKGMAP_JAVACMD \
 	$MKGMAP_JAVACMD_OPTIONS \
 	$MKGMAP \
 		-c $MAP_ROOT/arg/transport_osm.args \
-		--description=Transport \
+		--description="Transport" \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
-		--style=$STYLE_TRANSPORT \
+		--style=$STYLE_SL \
 		$MAP_ROOT/tmp/split/*.osm.pbf
-	echo 'Generating transport map....done'
-	cd $MAP_ROOT
-}
-
-function build_pois()
-{	
-	echo "Extracting POIs..."
-        $OSMOSIS \
-        	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
-        	--tf accept-nodes \
-        		amenity=* \
-        		tourism=* \
-        		highway=* \
-        		leisure=* \
-        		historic=* \
-        		natural=* \
-        		railway=* \
-        		shop=* \
-        		public_transport=* \
-        		barrier=* \
-        		man_made=* \
-        		landmark=* \
-        		natural=* \
-        		sport=* \
-        		place=* \
-        		healthcare=* \
-        	--tf reject-ways \
-        	--tf reject-relations \
-        	--write-pbf $TEMP_LOC/sri-lanka-latest-poi.osm.pbf
-	echo "Extracting POIs...done."
-	
-	cd $IMG_LOC
-	echo 'Generating POI map....'
-	IMG_FILE_NAME="`shuf -i 10000000-99999999 -n 1`"
-	$MKGMAP_JAVACMD \
-	$MKGMAP_JAVACMD_OPTIONS \
-	$MKGMAP \
-		-c $MAP_ROOT/arg/poi.args \
-		--description=POI \
-		--mapname=$IMG_FILE_NAME \
-		--style-file=$MAP_ROOT/style \
-		--style=$STYLE_TRANSPORT \
-		--input-file=$TEMP_LOC/sri-lanka-latest-poi.osm.pbf
-	echo 'Generating POI map....done'
 	cd $MAP_ROOT
 }
 
 function merge_all()
 {
-	#Copy other pre-compiled maps
-	#echo 'Copying pre-compiled maps...'
-	#cp $OTHER_IMG_LOC/*.img $IMG_LOC
-	#echo 'Copying pre-compiled maps...done'
-
-	#Combine all img files into one
 	IMG_STRING=''
-	for file in `find $IMG_LOC -maxdepth 1 -type f -name "*.img" -o -name "*.mdx"`
+	for file in `find $IMG_LOC -maxdepth 1 -type f -name "*.img"`
 	do
 		IMG_STRING="$IMG_STRING $file"
 	done
@@ -258,17 +142,13 @@ function merge_all()
 		--index \
 		$IMG_STRING \
 		$TYP_FILE
-	echo 'Combining done.'
 	cd $MAP_ROOT
 }
 
 # ------------- Start -------------
 prepare
-all_in_one
-#build_sea_and_the_land
-#build_contour_lines
-#build_roads_and_areas
-#build_pois
-#merge_all
-#send_map
+build_base_map
+build_contour_lines
+build_ways_relations_pois
+merge_all
 # ------------- End -------------

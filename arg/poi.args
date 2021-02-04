@@ -3,7 +3,7 @@ family-id: 53130
 family-name: Sri_Lanka_POI
 series-name: POI
 code-page: 1252
-draw-priority: 75
+draw-priority: 5
 keep-going
 transparent
 country-name: Sri_Lanka

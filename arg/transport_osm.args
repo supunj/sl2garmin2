@@ -2,37 +2,40 @@ product-id: 1
 family-id: 53130
 series-name: Transport
 family-name: Sri_Lanka_Routes_OSM
-draw-priority: 5
+draw-priority: 0
 code-page: 1252
 keep-going
 transparent
 max-jobs
-reduce-point-density: 4
-reduce-point-density-polygon: 8
-add-pois-to-lines
-add-pois-to-areas
+#reduce-point-density: 4
+#reduce-point-density-polygon: 8
+lower-case
+report-similar-arcs
+order-by-decreasing-area
+latin1
+preserve-element-order
+polygon-size-limits=24:12, 18:10, 16:8, 14:4, 13:2, 11:0
+no-tdbfile
+
+#Routing
 route
 drive-on=left
-lower-case
 location-autofill: is_in,nearest
 link-pois-to-ways
 process-destination
 process-exits
 check-roundabouts
 check-roundabout-flares
-report-similar-arcs
 report-dead-ends: 2
-order-by-decreasing-area
-latin1
-preserve-element-order
-polygon-size-limits=24:12, 18:10, 16:8, 14:4, 13:2, 11:0
-#country-name: Sri_Lanka
-#country-abbr: SL
-#region-name: South_Asia
-#region-abbr: SA
-#area-name: Sri_Lanka
-#housenumbers
-#poi-address
-#index
-#split-name-index
-no-tdbfile
+add-pois-to-lines
+
+#Address
+country-name: Sri_Lanka
+country-abbr: SL
+region-name: South_Asia
+region-abbr: SA
+area-name: Sri_Lanka
+housenumbers
+poi-address
+index
+split-name-index

@@ -1,7 +1,7 @@
 product-id: 1
 family-id: 53130
 series-name: Coastline
-draw-priority: 5
+draw-priority: 0
 country-name: Sri_Lanka
 country-abbr: SL
 region-name: South_Asia
@@ -14,13 +14,15 @@ keep-going
 #verbose
 order-by-decreasing-area
 preserve-element-order
-#dem-dists: 9942,9942,9942,13248,44176
-show-profiles: 1
-#dem-dists: 3312,3312,13248,26512,53024
-dem-dists=9942,9942,19884,39768,53024,53024
-dem-interpolation: bicubic
-overview-dem-dist: 88368
 order-by-decreasing-area
 generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-gaps=10,floodblocker,fbdebug
 order-by-decreasing-area
 no-tdbfile
+transparent
+
+#Elevation
+show-profiles: 1
+dem-dists: 3312,9942,13248,19884,39768,53024
+#dem-dists=9942,9942,19884,39768,53024,53024
+dem-interpolation: bicubic
+overview-dem-dist: 88368

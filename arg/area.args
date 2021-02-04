@@ -1,0 +1,21 @@
+product-id: 1
+family-id: 53130
+family-name: Sri_Lanka_POI
+series-name: POI
+code-page: 1252
+draw-priority: 0
+keep-going
+transparent
+country-name: Sri_Lanka
+country-abbr: SL
+region-name: South_Asia
+region-abbr: SA
+area-name: Sri_Lanka
+lower-case
+order-by-decreasing-area
+latin1
+preserve-element-order
+no-tdbfile
+polygon-size-limits=24:12, 18:10, 16:8, 14:4, 13:2, 11:0
+add-pois-to-areas
+reduce-point-density-polygon: 8

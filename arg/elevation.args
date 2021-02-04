@@ -1,7 +1,7 @@
 product-id: 1
 family-id: 53130
 series-name: Contours
-draw-priority: 5
+draw-priority: 0
 transparent
 country-name: Sri_Lanka
 country-abbr: SL

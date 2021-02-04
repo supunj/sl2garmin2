@@ -14,13 +14,6 @@ keep-going
 #verbose
 order-by-decreasing-area
 preserve-element-order
-#dem-dists: 9942,9942,9942,13248,44176
-show-profiles: 1
-#dem-dists: 3312,3312,13248,26512,53024
-dem-dists=9942,9942,19884,39768,53024,53024
-dem-interpolation: bicubic
-#overview-dem-dist: 88368
-generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-gaps=10,floodblocker,fbdebug
 reduce-point-density: 4
 reduce-point-density-polygon: 8
 add-pois-to-lines
@@ -28,6 +21,9 @@ add-pois-to-areas
 polygon-size-limits=24:12, 18:10, 16:8, 14:4, 13:2, 11:0
 no-tdbfile
 gmapsupp
+
+#Sea
+generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-gaps=10,floodblocker,fbdebug
 
 #Routing
 route
@@ -40,3 +36,12 @@ check-roundabouts
 check-roundabout-flares
 report-similar-arcs
 report-dead-ends: 2
+
+transparent
+
+#Elevation
+show-profiles: 1
+dem-dists: 3312,9942,13248,19884,39768,53024
+#dem-dists=9942,9942,19884,39768,53024,53024
+dem-interpolation: bicubic
+#overview-dem-dist: 88368
