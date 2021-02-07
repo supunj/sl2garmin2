@@ -135,3 +135,77 @@ group by
 	tl.key
 order by
 	cnt desc
+	
+	
+select *
+from ways w 
+where w.tags @> '"natural"=>"waterfall"' :: hstore
+
+
+
+select
+	w.tags -> 'highway',
+	count(*) as cnt,
+	round(avg(case when w.tags -> 'maxspeed' ~ '^[0-9\.]+$' then cast(w.tags -> 'maxspeed' as INTEGER) else 0 end))
+from
+	ways w
+where
+	w.tags ? 'highway'
+group by
+	w.tags -> 'highway'
+order by
+	cnt desc
+	
+
+select
+	avg(cast(w.tags -> 'maxspeed' as INTEGER))
+from
+	ways w
+where
+	w.tags @> '"highway"=>"motorway"' :: hstore
+
+	
+	select '12.41212' ~ '^[0-9\.]+$'
+	
+	
+select
+	*
+from
+	ways w
+where
+	w.tags @> '"highway"=>"trunk"' :: hstore
+	
+	
+select *
+from relations r 
+where r.tags ? 'landuse'
+
+select
+	tags->'landuse',
+	count(id) as how_many
+from
+	relations
+where
+	tags ? 'landuse'
+group by
+	tags -> 'landuse'
+order by
+	how_many desc
+
+	
+select
+	tags->'natural',
+	count(id) as how_many
+from
+	relations
+where
+	tags ? 'natural'
+group by
+	tags -> 'natural'
+order by
+	how_many desc
+	
+
+select *
+from ways w 
+where w.id = 682698483

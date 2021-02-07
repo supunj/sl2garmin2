@@ -51,3 +51,21 @@ maxspeed=* & mkgmap:road-speed-max!=* & maxspeedkmh() <= 120 { set mkgmap:road-s
 # The following rule limits it for all countries except Germany. A few other roads elsewhere are unlimited
 # and they would be expected to have a maxspeed:* tag that will override this.
 highway=motorway & maxspeed!=* & mkgmap:road-speed-max!=* & mkgmap:country!=DEU {set mkgmap:road-speed-max=6}
+
+#Sri Lanka
+highway=residential { set mkgmap:road-speed-max = 1 }
+highway=track { set mkgmap:road-speed-max = 0 }
+highway=unclassified { set mkgmap:road-speed-max = 1 }
+highway=living_street { set mkgmap:road-speed-max = 0 }
+highway=service { set mkgmap:road-speed-max = 1 }
+highway=tertiary { set mkgmap:road-speed-max = 2 }
+highway=secondary { set mkgmap:road-speed-max = 3 }
+highway=trunk { set mkgmap:road-speed-max = 3 }
+highway=primary { set mkgmap:road-speed-max = 3 }
+highway=motorway { set mkgmap:road-speed-max = 6 }
+highway=trunk_link { set mkgmap:road-speed-max = 2 }
+highway=motorway_link { set mkgmap:road-speed-max = 5 }
+highway=primary_link { set mkgmap:road-speed-max = 2 }
+highway=construction { set mkgmap:road-speed-max = 2 }
+highway=secondary_link { set mkgmap:road-speed-max = 2 }
+highway=tertiary_link { set mkgmap:road-speed-max = 2 }

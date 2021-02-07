@@ -15,8 +15,6 @@ function prepare()
 	OSMOSIS_LOC=$MAP_ROOT/tools/osmosis-0.48.3
 	OSMOSIS=$OSMOSIS_LOC/bin/osmosis
 	SPLITTER=$MAP_ROOT/tools/splitter-r597/splitter.jar
-	STYLE_SL=sl
-	TYP_FILE=$MAP_ROOT/typ/os50_mod.typ
 
 	export MKGMAP_JAVACMD=/usr/bin/java
 	export MKGMAP_JAVACMD_OPTIONS="-Xmx4096M -jar -enableassertions"
@@ -41,11 +39,11 @@ function build_base_map()
 	echo "Extracting the coastline..."
 	$OSMOSIS \
 		--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
-		--way-key-value keyValueList="natural.coastline" \
+		--tf accept-ways natural=coastline \
 		--tf reject-relations \
-		--used-node \
 		--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
-		--write-pbf $TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
+		--used-node \
+		--write-pbf $TEMP_LOC/sri-lanka-latest-coastline-relations.osm.pbf
 
 	cd $IMG_LOC
 	echo 'Building base map....'
@@ -59,8 +57,8 @@ function build_base_map()
 		--description="Sri Lanka Base Map" \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
-		--style=$STYLE_SL \
-		$TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
+		--style=sl \
+		$TEMP_LOC/sri-lanka-latest-coastline-relations.osm.pbf
 	cd $MAP_ROOT
 }
 
@@ -84,27 +82,28 @@ function build_contour_lines()
 		--description="Sri Lanka Contour Lines" \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
-		--style=$STYLE_SL \
+		--style=sl \
 		$MAP_ROOT/tmp/split/*.osm.pbf
 	cd $MAP_ROOT
 }
 
 function build_ways_relations_pois()
 {
-	echo "Removing the coast..."
-        $OSMOSIS \
-        	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
-        	--tf reject-ways natural=coastline \
-        	--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
-        	--write-pbf $TEMP_LOC/sri-lanka-latest-no-coast.osm.pbf
-	
+	#echo "Removing the coast..."
+        #$OSMOSIS \
+        #	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
+        #	--tf reject-ways natural=coastline \
+        #	--tf reject-relations \
+        #	--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
+        #	--write-pbf $TEMP_LOC/sri-lanka-latest-no-coast-relations.osm.pbf
+
 	echo 'Splitting....'
 	rm $MAP_ROOT/tmp/split/*
 	cd $MAP_ROOT/tmp/split
 	$MKGMAP_JAVACMD \
 	$MKGMAP_JAVACMD_OPTIONS \
 	$SPLITTER \
-		$TEMP_LOC/sri-lanka-latest-no-coast.osm.pbf	
+		$TEMP_LOC/$SOURCE_MAP_NAME	
 	cd $MAP_ROOT
 	
 	cd $IMG_LOC
@@ -117,7 +116,7 @@ function build_ways_relations_pois()
 		--description="Transport" \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
-		--style=$STYLE_SL \
+		--style=sl \
 		$MAP_ROOT/tmp/split/*.osm.pbf
 	cd $MAP_ROOT
 }
@@ -141,7 +140,7 @@ function merge_all()
 		--tdbfile \
 		--index \
 		$IMG_STRING \
-		$TYP_FILE
+		$MAP_ROOT/typ/os50_mod.typ
 	cd $MAP_ROOT
 }
 
