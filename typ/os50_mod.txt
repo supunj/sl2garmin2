@@ -2,7 +2,7 @@
 
 [_id]
 ProductCode=1
-FID=53130
+FID=1977
 CodePage=1252
  [End]
 
@@ -4020,8 +4020,8 @@ UseOrientation=Y
 LineWidth=4
 BorderWidth=1
 Xpm="0 0 2 0"
-"1 c #3965FF"
-"2 c #525252"
+"1 c #08B7E9"
+"2 c #000000"
 String1=0x04,Motorway
 ExtendedLabels=N
 [end]
@@ -4063,10 +4063,12 @@ UseOrientation=Y
 LineWidth=3
 BorderWidth=1
 Xpm="0 0 2 0"
-"1 c #BD9541"
+"1 c #F2A80A"
 "2 c #000000"
 String1=0x04,Secondary
-ExtendedLabels=N
+ExtendedLabels=Y
+FontStyle=Default
+CustomColor=No
 [end]
 
 
@@ -4121,7 +4123,7 @@ ExtendedLabels=N
 Type=0x08
 ;GRMN_TYPE: Roads/LOW_SPEED_RAMP/Highway ramp which is to be driven at low speeds/Non NT, NT
 UseOrientation=Y
-LineWidth=2
+LineWidth=3
 BorderWidth=1
 Xpm="0 0 2 0"
 "1 c #BD9541"
@@ -4135,10 +4137,10 @@ ExtendedLabels=N
 Type=0x09
 ;GRMN_TYPE: Roads/HIGH_SPEED_RAMP, RAMP/Highway ramp which is to be driven at high speeds/Non NT, NT
 UseOrientation=Y
-LineWidth=2
+LineWidth=3
 BorderWidth=1
 Xpm="0 0 2 0"
-"1 c #39CA6A"
+"1 c #95FF67"
 "2 c #000000"
 String1=0x04,High-speed ramp
 ExtendedLabels=N
@@ -4164,10 +4166,10 @@ ExtendedLabels=N
 Type=0x0b
 ;GRMN_TYPE: Roads/MAJOR_CONNECTOR/Major highway connector/Non NT, NT
 UseOrientation=N
-LineWidth=1
+LineWidth=3
 BorderWidth=1
 Xpm="0 0 2 0"
-"1 c #FDFD4F"
+"1 c #BF9FFF"
 "2 c #000000"
 ExtendedLabels=Y
 FontStyle=SmallFont
@@ -20652,4 +20654,4 @@ DayXpm="16 16 119 2"   Colormode=16
 "=8=91!!6!6#6#61##9#9#9#91%%!1?!2"
 "1$1*!=!$!$!$!$!$!$!$!$!$!=!!1=%2"
 ;1234567890123456
-[end]
+[end]]
