@@ -1,4 +1,21 @@
 select
+	count(*)
+from
+	nodes
+where
+	tags @> '"amenity"=>"place_of_worship"' :: hstore
+	and tags @> '"religion"=>"buddhist"' :: hstore 
+
+	
+select
+	tags->'amenity'
+from
+	nodes
+where
+	tags ? 'amenity' 	
+
+
+select
 	tags->'shop',
 	count(id) as how_many
 from
@@ -8,6 +25,32 @@ where
 	and tags ? 'shop'
 group by
 	tags->'shop'
+order by
+	how_many desc
+	
+select
+	tags->'natural',
+	count(id) as how_many
+from
+	nodes
+where
+	tags notnull
+	and tags ? 'natural'
+group by
+	tags->'natural'
+order by
+	how_many desc
+	
+select
+	tags->'power',
+	count(id) as how_many
+from
+	nodes
+where
+	tags notnull
+	and tags ? 'power'
+group by
+	tags->'power'
 order by
 	how_many desc
 	
@@ -71,11 +114,18 @@ where
 	
 	
 	
-SELECT tags->'amenity', count(id) as how_many
-FROM nodes
-where tags notnull and tags ? 'amenity'
-group by tags->'amenity'
-order by how_many desc
+select
+	tags->'highway',
+	count(id) as how_many
+from
+	nodes
+where
+	tags notnull
+	and tags ? 'highway'
+group by
+	tags->'highway'
+order by
+	how_many desc
 
 select
 	tags->'place',
