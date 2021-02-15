@@ -86,7 +86,7 @@ natural=wetland [0x51 resolution 20]
 natural=water & (water=canal | water=river | waterway=river) [0x48 resolution 22]
 natural=water & water=lock [0x4c resolution 22 default_name 'Lock']
 natural=water & area_size() < 100000 [0x41 resolution 22]  # Small Lake
-natural=water | water=pond | landuse=aquaculture [0x3c resolution 18]
+natural=water & (water=pond | landuse=aquaculture) [0x3c resolution 18]
 natural=waterfall | waterway=waterfall [0x47 resolution 21]
 natural=sea {add mkgmap:skipSizeFilter=true; set mkgmap:drawLevel=2} [0x32 resolution 10]
 
@@ -101,18 +101,28 @@ landuse=commercial [0x0f resolution 19]
 landuse=construction [0x0c resolution 21]
 landuse=farm [0x26 resolution 22]
 
-landuse=farmland | crop=* [0x1c resolution 20]
-landuse=farmland & (crop=Paddy | crop=paddy | crop=rice) [0x1c resolution 20]
-landuse=farmland & (crop=rubber | trees=rubber_trees) [0x1c resolution 20]
-landuse=farmland & (crop=tea | trees=tea_plants) [0x1c resolution 20]
-landuse=farmland & crop=corn [0x1c resolution 20]
-landuse=farmland & crop=vegetable [0x1c resolution 20]
-landuse=farmland & (crop=cocount | crop='cocount plams' | trees=coconut_palms) [0x1c resolution 20]
+crop=Paddy | crop=paddy | crop=rice [0x10506 resolution 20]
+crop=rubber [0x10107 resolution 20]
+trees=rubber_trees [0x10107 resolution 20]
+crop=tea [0x10102 resolution 20]
+trees=tea_plants { echotags "0x10102" } [0x10102 resolution 20]
+crop=corn [0x1c resolution 20]
+crop=vegetable [0x10104 resolution 20]
+crop=cocount | crop='cocount plams' [0x10108 resolution 20]
+trees=coconut_palms [0x10108 resolution 20]
+landuse=farmland [0x1c resolution 20]
+crop=* [0x1c resolution 20]
 
 landuse=farmyard | landuse=plant_nursery | landuse=greenhouse_horticulture [0x26 resolution 22]
-landuse=forest | landuse=wood | natural=wood | natural=tree_row [0x50 resolution 20]
+landuse=forest | landuse=wood [0x50 resolution 20]
+natural=wood | natural=tree_row [0x50 resolution 20]
 
-landuse=meadow | landuse=grass | crop=grass | landuse=brownfield | landuse=greenfield | natural=heath [0x1c resolution 19]
+landuse=meadow [0x1c resolution 19]
+landuse=grass [0x1c resolution 19]
+crop=grass [0x1c resolution 19]
+landuse=brownfield [0x1c resolution 19]
+landuse=greenfield [0x1c resolution 19]
+natural=heath [0x1c resolution 19]
 
 landuse=military [0x04 resolution 19]
 landuse=quarry [0x0c resolution 19]
@@ -124,7 +134,7 @@ landuse=retail [0x12 resolution 20-23]
 landuse=village_green [0x15 resolution 20]
 landuse=vineyard [0x4e resolution 20]
 landuse=orchard [0x4e resolution 20]
-landuse=salt_pond [0x09 resolution 20]
+landuse=salt_pond [0x10100 resolution 20]
 
 military=airfield [0x04 resolution 20]
 military=barracks [0x04 resolution 23]
@@ -141,13 +151,17 @@ amenity=* & area!=no & amenity!=grave_yard {add name='${amenity|subst:"_=> "}'} 
 
 building=abandoned [0x13 resolution 24]
 
-building=temple | building=pagoda | building=church | landuse=religious | amenity=place_of_worship | amenity=church [0x13 resolution 24]
+building=temple | building=pagoda | building=church [0x13 resolution 24]
+landuse=religious [0x13 resolution 24]
+amenity=place_of_worship | amenity=church [0x13 resolution 24]
 
 amenity=bus_station | building=train_station | building=service | building=bus_station [0x13 resolution 24]
 
-building=Police | building=police | amenity=police [0x13 resolution 24]
+building=Police | building=police [0x13 resolution 24]
+amenity=police [0x13 resolution 24]
 
-amenity=bank | atm=yes [0x13 resolution 24]
+amenity=bank [0x13 resolution 24] 
+atm=yes [0x13 resolution 24]
 
 tourism=* & area!=no & waterway!=* {add name='${tourism|subst:"_=> "}'} [0x21 resolution 24]
 
