@@ -20,21 +20,18 @@ aeroway=aerodrome [0x07 resolution 20]
 aeroway=runway & area=yes {name '${ref}'} [0x0e resolution 20]
 (aeroway=taxiway | aeroway=taxilane) & area=yes {name '${ref}'} [0x0e resolution 24]
 aeroway=heliport [0x07 resolution 20]
-aeroway=helipad [0x0e resolution 22]
+aeroway=helipad | aeroway=apron [0x0e resolution 22]
 
-amenity=kindergarten [0x0a resolution 22]
-amenity=cafe | amenity=fast_food | amenity=restaurant [0x08 resolution 24]
-amenity=food_court [0x08 resolution 22]
-amenity=college [0x0a resolution 22]
+amenity=cafe | amenity=fast_food | amenity=restaurant | amenity=food_court [0x08 resolution 24]
 parking=underground | parking=multi-storey [0x06 resolution 22]
-amenity=parking | parking=surface [0x05 resolution 22]
+amenity=parking | parking=surface | amenity=parking_space [0x05 resolution 22]
 amenity=prison [0x04 resolution 22]
-amenity=school [0x0a resolution 22]
+amenity=school | amenity=kindergarten | building=school | building=School | building=college | office=educational_institution | type=school | amenity=college [0x0a resolution 22]
 # amenity=supermarket is superceded by shop=supermarket or landuse=retail
-amenity=supermarket [0x08 resolution 22]
+amenity=supermarket | shop=supermarket [0x35 resolution 20-23]
 amenity=university [0x0a resolution 21]
 
-healthcare=hospital | amenity=hospital | amenity=clinic [0x0b resolution 22]
+healthcare=hospital | amenity=hospital | amenity=clinic | amenity=pharmacy | building=hospital [0x0b resolution 22]
 healthcare=* | amenity=dentist | amenity=doctors | amenity=nursing_home [0x0b resolution 23]
 
 leisure=common [0x1d resolution 21]
@@ -56,6 +53,9 @@ place=suburb [0x02 resolution 19]
 
 shop=* {add name='${shop|subst:"_=> "}'} [0x08 resolution 22]
 
+building=garage | building='other(Garage)' | shop=car_repair [0x08 resolution 22]
+building=hotel | building=cabin | tourism=hotel | tourism=guest_house [0x08 resolution 22]
+
 # squares and plazas
 place=square [0x25 resolution 22]
 highway=pedestrian & (area=yes | mkgmap:mp_created=true) [0x25 resolution 22]
@@ -68,6 +68,7 @@ highway=footway & area=yes [0x25 resolution 24]
 highway=services [0x12 resolution 22]  # service station complex; show as retail
 highway=rest_area & area!=no [0x05 resolution 22]  # show as parking lot
 
+building=ruins | historic=ruins | historic=wayside_shrine | historic=archaeological_site [0x22 resolution 21]
 historic=* & historic!=no & historic!=yes & boundary!=* {add name='${historic|subst:"_=> "}'} [0x22 resolution 21]
 
 landuse=basin [0x3f resolution 20]
@@ -82,10 +83,10 @@ natural=tundra [0x52 resolution 18]
 natural=mud [0x51 resolution 20]
 natural=beach | natural=sand [0x53 resolution 20]
 natural=wetland [0x51 resolution 20]
-natural=water & water=canal [0x48 resolution 22]
+natural=water & (water=canal | water=river | waterway=river) [0x48 resolution 22]
 natural=water & water=lock [0x4c resolution 22 default_name 'Lock']
 natural=water & area_size() < 100000 [0x41 resolution 22]  # Small Lake
-natural=water [0x3c resolution 18]
+natural=water | water=pond | landuse=aquaculture [0x3c resolution 18]
 natural=waterfall | waterway=waterfall [0x47 resolution 21]
 natural=sea {add mkgmap:skipSizeFilter=true; set mkgmap:drawLevel=2} [0x32 resolution 10]
 
@@ -94,16 +95,25 @@ waterway=riverbank [0x46 resolution 20]
 # mop up any remaining water areas
 waterway=* & waterway!=no & area!=no {add name='${waterway|subst:"_=> "}'} [0x3b resolution 22]
 
-landuse=allotments [0x23 resolution 21]
+landuse=allotments [0x4e resolution 21]
 landuse=cemetery | landuse=cemetary | amenity=grave_yard [0x1a resolution 21]
 landuse=commercial [0x0f resolution 19]
 landuse=construction [0x0c resolution 21]
 landuse=farm [0x26 resolution 22]
-landuse=farmland [0x1c resolution 20]
-landuse=farmyard [0x26 resolution 22]
-landuse=forest | landuse=wood [0x50 resolution 20]
-landuse=greenfield [0x1c resolution 20]
-landuse=meadow | landuse=grass [0x17 resolution 19]
+
+landuse=farmland | crop=* [0x1c resolution 20]
+landuse=farmland & (crop=Paddy | crop=paddy | crop=rice) [0x1c resolution 20]
+landuse=farmland & (crop=rubber | trees=rubber_trees) [0x1c resolution 20]
+landuse=farmland & (crop=tea | trees=tea_plants) [0x1c resolution 20]
+landuse=farmland & crop=corn [0x1c resolution 20]
+landuse=farmland & crop=vegetable [0x1c resolution 20]
+landuse=farmland & (crop=cocount | crop='cocount plams' | trees=coconut_palms) [0x1c resolution 20]
+
+landuse=farmyard | landuse=plant_nursery | landuse=greenhouse_horticulture [0x26 resolution 22]
+landuse=forest | landuse=wood | natural=wood | natural=tree_row [0x50 resolution 20]
+
+landuse=meadow | landuse=grass | crop=grass | landuse=brownfield | landuse=greenfield | natural=heath [0x1c resolution 19]
+
 landuse=military [0x04 resolution 19]
 landuse=quarry [0x0c resolution 19]
 landuse=recreation_ground [0x19 resolution 19]
@@ -112,8 +122,9 @@ landuse=industrial [0x0c resolution 19-23]
 landuse=residential [0x10 resolution 19-23]
 landuse=retail [0x12 resolution 20-23]
 landuse=village_green [0x15 resolution 20]
-landuse=vineyard [0x1b resolution 20]
+landuse=vineyard [0x4e resolution 20]
 landuse=orchard [0x4e resolution 20]
+landuse=salt_pond [0x09 resolution 20]
 
 military=airfield [0x04 resolution 20]
 military=barracks [0x04 resolution 23]
@@ -125,7 +136,19 @@ natural=wood [0x50 resolution 20]
 
 # building tag should be last
 amenity=* & area!=no & amenity!=grave_yard {add name='${amenity|subst:"_=> "}'} [0x23 resolution 24]
-building=* & building!=no [0x13 resolution 24]
+
+(building=* & building!=no) | landuse=construction [0x13 resolution 24]
+
+building=abandoned [0x13 resolution 24]
+
+building=temple | building=pagoda | building=church | landuse=religious | amenity=place_of_worship | amenity=church [0x13 resolution 24]
+
+amenity=bus_station | building=train_station | building=service | building=bus_station [0x13 resolution 24]
+
+building=Police | building=police | amenity=police [0x13 resolution 24]
+
+amenity=bank | atm=yes [0x13 resolution 24]
+
 tourism=* & area!=no & waterway!=* {add name='${tourism|subst:"_=> "}'} [0x21 resolution 24]
 
 # man_made can be used on areas or lines

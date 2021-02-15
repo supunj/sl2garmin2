@@ -16,6 +16,11 @@ function prepare()
 	OSMOSIS=$OSMOSIS_LOC/bin/osmosis
 	SPLITTER=$MAP_ROOT/tools/splitter-r597/splitter.jar
 
+	FID=53130
+	PID=1
+	SNAME=sl-topo
+	AREA=sl
+
 	export MKGMAP_JAVACMD=/usr/bin/java
 	export MKGMAP_JAVACMD_OPTIONS="-Xmx4096M -jar -enableassertions"
 
@@ -52,12 +57,15 @@ function build_base_map()
 	$MKGMAP_JAVACMD_OPTIONS \
 	$MKGMAP \
 		-c $MAP_ROOT/arg/sea_land.args \
+		--family-id=$FID \
+		--product-id=$PID \
+		--series-name=$SNAME \
+		--area-name=$AREA \
 		--dem=$MAP_ROOT/hgt \
 		--dem-poly=$MAP_ROOT/sri-lanka.poly \
-		--description="Sri Lanka Base Map" \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
-		--style=sl \
+		--style=lk \
 		$TEMP_LOC/sri-lanka-latest-coastline-relations.osm.pbf
 	cd $MAP_ROOT
 }
@@ -79,31 +87,35 @@ function build_contour_lines()
 	$MKGMAP_JAVACMD_OPTIONS \
 	$MKGMAP \
 		-c $MAP_ROOT/arg/elevation.args \
-		--description="Sri Lanka Contour Lines" \
+		--family-id=$FID \
+		--product-id=$PID \
+		--series-name=$SNAME \
+		--area-name=$AREA \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
-		--style=sl \
+		--style=lk \
 		$MAP_ROOT/tmp/split/*.osm.pbf
 	cd $MAP_ROOT
 }
 
 function build_ways_relations_pois()
 {
-	#echo "Removing the coast..."
-        #$OSMOSIS \
-        #	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
-        #	--tf reject-ways natural=coastline \
-        #	--tf reject-relations \
-        #	--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
-        #	--write-pbf $TEMP_LOC/sri-lanka-latest-no-coast-relations.osm.pbf
-
+	echo "Removing the coast..."
+        $OSMOSIS \
+        	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
+        	--tf accept-nodes \
+        	--tf accept-ways \
+        	--tf reject-relations name='"Gulf of Mannar"' \
+        	--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
+        	--write-pbf $TEMP_LOC/sri-lanka-latest-no-coast-relations.osm.pbf
+        	
 	echo 'Splitting....'
 	rm $MAP_ROOT/tmp/split/*
 	cd $MAP_ROOT/tmp/split
 	$MKGMAP_JAVACMD \
 	$MKGMAP_JAVACMD_OPTIONS \
 	$SPLITTER \
-		$TEMP_LOC/$SOURCE_MAP_NAME	
+		$TEMP_LOC/sri-lanka-latest-no-coast-relations.osm.pbf	
 	cd $MAP_ROOT
 	
 	cd $IMG_LOC
@@ -113,10 +125,13 @@ function build_ways_relations_pois()
 	$MKGMAP_JAVACMD_OPTIONS \
 	$MKGMAP \
 		-c $MAP_ROOT/arg/transport_osm.args \
-		--description="Transport" \
+		--family-id=$FID \
+		--product-id=$PID \
+		--series-name=$SNAME \
+		--area-name=$AREA \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
-		--style=sl \
+		--style=lk \
 		$MAP_ROOT/tmp/split/*.osm.pbf
 	cd $MAP_ROOT
 }
@@ -134,6 +149,10 @@ function merge_all()
 	$MKGMAP_JAVACMD \
 	$MKGMAP_JAVACMD_OPTIONS -jar \
 	$MKGMAP \
+		--family-id=$FID \
+		--product-id=$PID \
+		--series-name=$SNAME \
+		--area-name=$AREA \
 		--code-page=1252 \
 		--keep-going \
 		--gmapsupp \

@@ -1,18 +1,8 @@
-product-id: 1
-family-id: 53130
-series-name: Contours
+family-name: sl-contours
 draw-priority: 0
-transparent
-country-name: Sri_Lanka
-country-abbr: SL
-region-name: South_Asia
-region-abbr: SA
-family-name: Sri_Lanka_Contours
-area-name: Sri_Lanka
 code-page: 1252
+transparent
 lower-case
 keep-going
-#verbose
-order-by-decreasing-area
 latin1
 no-tdbfile

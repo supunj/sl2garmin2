@@ -1,28 +1,16 @@
-product-id: 1
-family-id: 53130
-series-name: Coastline
+family-name: sl-base
 draw-priority: 0
-country-name: Sri_Lanka
-country-abbr: SL
-region-name: South_Asia
-region-abbr: SA
-family-name: Sri_Lanka_Coast
-area-name: Sri_Lanka
 code-page: 1252
+transparent
 lower-case
 keep-going
-#verbose
-order-by-decreasing-area
-preserve-element-order
-order-by-decreasing-area
+latin1
 generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-gaps=10,floodblocker,fbdebug
-order-by-decreasing-area
 no-tdbfile
-transparent
 
 #Elevation
 show-profiles: 1
-dem-dists: 3312,9942,13248,19884,39768,53024
+#dem-dists: 3312,9942,13248,19884,39768,53024
 #dem-dists=9942,9942,19884,39768,53024,53024
 dem-interpolation: bicubic
 overview-dem-dist: 88368

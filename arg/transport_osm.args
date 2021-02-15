@@ -1,7 +1,4 @@
-product-id: 1
-family-id: 53130
-series-name: Transport
-family-name: Sri_Lanka_Routes_OSM
+family-name: sl-route
 draw-priority: 0
 code-page: 1252
 keep-going
@@ -34,7 +31,6 @@ country-name: Sri_Lanka
 country-abbr: SL
 region-name: South_Asia
 region-abbr: SA
-area-name: Sri_Lanka
 housenumbers
 poi-address
 index

@@ -256,6 +256,113 @@ order by
 	how_many desc
 	
 
+select count(*)
+from ways w 
+where tags ? 'area'
+
+
+
+select count(*)
+from ways
+where nodes[1] = nodes[array_length(nodes, 1)] and array_length(nodes, 1) > 2
+
+
+
+select
+	tl.key,
+	count(*) as cnt
+from
+	(
+	select
+		(each(w.tags)).*
+	from
+		ways w
+	where
+		w.nodes[1] = w.nodes[array_length(w.nodes, 1)]
+		and array_length(w.nodes, 1) > 2 ) tl
+group by
+	tl.key
+order by
+	cnt desc
+	
+	
+select
+	tl.key,
+	count(*) as cnt
+from
+	(
+	select
+		(each(w.tags)).*
+	from
+		ways w
+	where
+		w.nodes[1] = w.nodes[array_length(w.nodes, 1)]
+		and array_length(w.nodes, 1) > 2 ) tl
+group by
+	tl.key
+order by
+	cnt desc
+	
+	
+	
+select
+	(hstore_to_array(w.tags))[1],
+	(hstore_to_array(w.tags))[2]
+from
+	ways w
+where
+	w.nodes[1] = w.nodes[array_length(w.nodes, 1)]
+	and array_length(w.nodes, 1) > 2
+	and (hstore_to_array(w.tags))[1] <> 'name'
+	
+	
+select
+	(hstore_to_array(w.tags))[1] as t1,
+	(hstore_to_array(w.tags))[2] as t2,
+	count(*) as cnt
+from
+	ways w
+where
+	w.nodes[1] = w.nodes[array_length(w.nodes, 1)]
+	and array_length(w.nodes, 1) > 2
+	and (hstore_to_array(w.tags))[1] not in ('name','source')
+group by
+	(hstore_to_array(w.tags))[1] ,
+	(hstore_to_array(w.tags))[2]
+having
+	count(*) > 9
+order by
+	t1,
+	cnt desc
+	
 select *
 from ways w 
-where w.id = 682698483
+where w.tags @> '"building"=>"abandoned"' :: hstore
+
+
+select *
+from ways w 
+where w.tags @> '"water"=>"lagoon"' :: hstore
+
+select *
+from ways w 
+where w.tags @> '"landuse"=>"plant_nursery"' :: hstore
+
+
+select *
+from ways w 
+where w.tags @> '"crop"=>"ofc"' :: hstore
+
+select *
+from ways w 
+where w.tags ? 'crop' and not exist(w.tags, 'landuse')
+
+
+select
+	*
+from
+	ways w
+where
+	w.tags @> '"waterway"=>"dam"' :: hstore
+	and w.nodes[1] = w.nodes[array_length(w.nodes, 1)]
+	and array_length(w.nodes, 1) > 2
