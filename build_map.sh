@@ -11,7 +11,7 @@ function prepare()
 	OTHER_IMG_LOC=$MAP_ROOT/maps/img
 	
 	# Tools
-	MKGMAP=$MAP_ROOT/tools/mkgmap-r4594/mkgmap.jar
+	MKGMAP=$MAP_ROOT/tools/mkgmap-r4601/mkgmap.jar
 	OSMOSIS_LOC=$MAP_ROOT/tools/osmosis-0.48.3
 	OSMOSIS=$OSMOSIS_LOC/bin/osmosis
 	SPLITTER=$MAP_ROOT/tools/splitter-r597/splitter.jar
@@ -100,12 +100,12 @@ function build_contour_lines()
 
 function build_ways_relations_pois()
 {
-	echo "Removing the coast..."
+	echo "Process..."
         $OSMOSIS \
         	--read-pbf-fast file=$TEMP_LOC/$SOURCE_MAP_NAME \
         	--tf accept-nodes \
         	--tf accept-ways \
-        	--tf reject-relations name='"Gulf of Mannar"' \
+        	--tf accept-relations \
         	--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
         	--write-pbf $TEMP_LOC/sri-lanka-latest-no-coast-relations.osm.pbf
         	
