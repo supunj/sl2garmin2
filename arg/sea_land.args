@@ -7,10 +7,10 @@ keep-going
 latin1
 generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-gaps=10,floodblocker,fbdebug
 no-tdbfile
+max-jobs
 
 #Elevation
 show-profiles: 1
-#dem-dists: 3312,9942,13248,19884,39768,53024
-#dem-dists=9942,9942,19884,39768,53024,53024
+dem-dists: 1656,9936,19872,26512,39768,52992,82800
 dem-interpolation: bicubic
-overview-dem-dist: 88368
+overview-dem-dist: 128000
