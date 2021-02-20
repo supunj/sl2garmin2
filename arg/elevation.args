@@ -1,8 +1,7 @@
 family-name: sl-contours
-draw-priority: 0
-code-page: 1252
+draw-priority: 10
+#code-page: 1252
 transparent
 lower-case
 keep-going
-latin1
 no-tdbfile

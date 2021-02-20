@@ -1,10 +1,8 @@
 family-name: sl-base
-draw-priority: 0
-code-page: 1252
+draw-priority: 5
 transparent
 lower-case
 keep-going
-latin1
 generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-gaps=10,floodblocker,fbdebug
 no-tdbfile
 max-jobs
@@ -12,5 +10,5 @@ max-jobs
 #Elevation
 show-profiles: 1
 dem-dists: 1656,9936,19872,26512,39768,52992,82800
-dem-interpolation: bicubic
+dem-interpolation: auto
 overview-dem-dist: 128000
