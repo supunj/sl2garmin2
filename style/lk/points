@@ -95,8 +95,8 @@ place=city & population >  99999 & name=* [0x0600 resolution 17]
 place=city & population >  49999 & name=* [0x0700 resolution 17]
 place=city & population >   9999 & name=* [0x0800 resolution 18]
 
-place=city & population >      0 & name=* [0x0800 resolution 18]
-place=city                       & name=* [0x0700 resolution 18]
+place=city & population >      0 & name:=* [0x0800 resolution 18]
+place=city                       & name:=* [0x0700 resolution 18]
 
 place=town & population >  69999 & name=* [0x0600 resolution 17]
 place=town & population >  19999 & name=* [0x0700 resolution 18]

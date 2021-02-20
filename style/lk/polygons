@@ -26,7 +26,10 @@ amenity=cafe | amenity=fast_food | amenity=restaurant | amenity=food_court [0x08
 parking=underground | parking=multi-storey [0x06 resolution 22]
 amenity=parking | parking=surface | amenity=parking_space [0x05 resolution 22]
 amenity=prison [0x04 resolution 22]
-amenity=school | amenity=kindergarten | building=school | building=School | building=college | office=educational_institution | type=school | amenity=college [0x0a resolution 22]
+amenity=school | amenity=kindergarten | amenity=college [0x0a resolution 22]
+building=school | building=School | building=college [0x0a resolution 22]
+office=educational_institution [0x0a resolution 22] 
+type=school [0x0a resolution 22]
 # amenity=supermarket is superceded by shop=supermarket or landuse=retail
 amenity=supermarket | shop=supermarket [0x35 resolution 20-23]
 amenity=university [0x0a resolution 21]
@@ -53,8 +56,10 @@ place=suburb [0x02 resolution 19]
 
 shop=* {add name='${shop|subst:"_=> "}'} [0x08 resolution 22]
 
-building=garage | building='other(Garage)' | shop=car_repair [0x08 resolution 22]
-building=hotel | building=cabin | tourism=hotel | tourism=guest_house [0x08 resolution 22]
+building=garage | building='other(Garage)' [0x08 resolution 22]
+shop=car_repair [0x08 resolution 22]
+building=hotel | building=cabin [0x08 resolution 22]
+tourism=hotel | tourism=guest_house [0x08 resolution 22]
 
 # squares and plazas
 place=square [0x25 resolution 22]
@@ -68,7 +73,8 @@ highway=footway & area=yes [0x25 resolution 24]
 highway=services [0x12 resolution 22]  # service station complex; show as retail
 highway=rest_area & area!=no [0x05 resolution 22]  # show as parking lot
 
-building=ruins | historic=ruins | historic=wayside_shrine | historic=archaeological_site [0x22 resolution 21]
+building=ruins [0x22 resolution 21]
+historic=ruins | historic=wayside_shrine | historic=archaeological_site [0x22 resolution 21]
 historic=* & historic!=no & historic!=yes & boundary!=* {add name='${historic|subst:"_=> "}'} [0x22 resolution 21]
 
 landuse=basin [0x3f resolution 20]
@@ -104,6 +110,7 @@ landuse=construction [0x0c resolution 21]
 landuse=farm [0x26 resolution 22]
 
 crop=Paddy | crop=paddy | crop=rice [0x10506 resolution 20]
+landuse='Paddy land' [0x10506 resolution 20]
 crop=rubber [0x10107 resolution 20]
 trees=rubber_trees [0x10107 resolution 20]
 crop=tea [0x10102 resolution 20]
@@ -131,7 +138,8 @@ landuse=quarry [0x0c resolution 19]
 landuse=recreation_ground [0x19 resolution 19]
 # dedicate resolution 24 for building=* instead of related landuse=*
 landuse=industrial [0x0c resolution 19-23]
-landuse=residential [0x10 resolution 19-23]
+#landuse=residential [0x10 resolution 19-23]
+landuse=residential {delete landuse}
 landuse=retail [0x12 resolution 20-23]
 landuse=village_green [0x15 resolution 20]
 landuse=vineyard [0x4e resolution 20]
@@ -149,21 +157,25 @@ natural=wood [0x50 resolution 20]
 # building tag should be last
 amenity=* & area!=no & amenity!=grave_yard {add name='${amenity|subst:"_=> "}'} [0x23 resolution 24]
 
-(building=* & building!=no) | landuse=construction [0x13 resolution 24]
+#(building=* & building!=no) | landuse=construction [0x13 resolution 24]
+landuse=construction [0x13 resolution 24]
 
-building=abandoned [0x13 resolution 24]
+building=abandoned | building='under construction' [0x13 resolution 24]
 
 building=temple | building=pagoda | building=church [0x13 resolution 24]
 landuse=religious [0x13 resolution 24]
 amenity=place_of_worship | amenity=church [0x13 resolution 24]
 
-amenity=bus_station | building=train_station | building=service | building=bus_station [0x13 resolution 24]
+amenity=bus_station [0x13 resolution 24]
+building=train_station | building=service | building=bus_station [0x13 resolution 24]
 
 building=Police | building=police [0x13 resolution 24]
 amenity=police [0x13 resolution 24]
 
 amenity=bank [0x13 resolution 24] 
 atm=yes [0x13 resolution 24]
+
+building=public | building=government | building=community_centre | building=goverment [0x13 resolution 24]
 
 tourism=* & area!=no & waterway!=* {add name='${tourism|subst:"_=> "}'} [0x21 resolution 24]
 
@@ -173,6 +185,9 @@ man_made=* & area!=no {add name='${man_made|subst:"_=> "}'} [0x24 resolution 24]
 # render small named islands
 place=island & name=* & area_size() < 1000000 [0x53 resolution 19]
 place=islet & name=* [0x53 resolution 20]
+
+#delete rest of the buidings
+building=* {delete building}
 
 <finalize>
 # The finalizer section is executed for each element when a rule with an element type matches

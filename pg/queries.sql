@@ -255,6 +255,19 @@ group by
 order by
 	how_many desc
 	
+	
+select
+	tags->'building',
+	count(id) as how_many
+from
+	ways
+where
+	tags ? 'building'
+group by
+	tags -> 'building'
+order by
+	how_many desc
+	
 
 select count(*)
 from ways w 
