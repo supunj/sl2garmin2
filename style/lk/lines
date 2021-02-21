@@ -16,6 +16,9 @@ abandoned=yes {deletealltags}  # old, depreciated, ambiguous, method of handling
 aeroway=runway & area!=yes {name '${ref}'} [0x27 resolution 20 continue]
 (aeroway=taxiway | aeroway=taxilane) & area!=yes {name '${ref}'} [0x27 resolution 24 continue]
 
+#Brides - supun
+#highway=* & bridge=yes [0x10102 continue]
+
 # Assign the street name for house number search
 highway=* & name=* {set mkgmap:street='${name}'}
 
@@ -151,6 +154,9 @@ highway=construction {add mkgmap:dead-end-check=false} [0x16 road_class=0 road_s
 highway=* & construction=* & maxspeed!=* {add mkgmap:road-speed='-1'}
 # Lower the road speed of disused ways.
 highway=* & disused=yes & maxspeed!=* {add mkgmap:road-speed='-2'}
+
+# Oneways - supun
+highway=* & oneway=yes [0x1050e continue]
 
 # Ways sorted roughly by descending order of class
 highway=motorway & mkgmap:fast_road=yes [0x01 road_class=4 road_speed=7 resolution 14]

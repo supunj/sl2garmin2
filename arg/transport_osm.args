@@ -1,5 +1,5 @@
 family-name: sl-route
-draw-priority: 12
+draw-priority: 90
 keep-going
 transparent
 max-jobs
@@ -13,6 +13,7 @@ polygon-size-limits: 24:12, 18:10, 16:8, 14:4, 13:2, 11:0
 name-tag-list: name:en,int_name,name
 no-merge-lines
 no-tdbfile
+ignore-osm-bounds
 
 #Routing
 route
