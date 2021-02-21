@@ -67,7 +67,6 @@ function build_base_map()
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
 		$TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
-		$MAP_ROOT/typ/os50_mod.typ
 	cd $MAP_ROOT
 }
 
@@ -78,7 +77,9 @@ function build_contour_lines()
 	cd $MAP_ROOT/tmp/split
 	$MKGMAP_JAVACMD \
 	$MKGMAP_JAVACMD_OPTIONS \
-	$SPLITTER $MAP_ROOT/maps/sl-contours.osm.pbf
+	$SPLITTER \
+		--polygon-file=$MAP_ROOT/sri-lanka.poly \
+		$MAP_ROOT/maps/sl-contours.osm.pbf
 	cd $MAP_ROOT
 	
 	cd $IMG_LOC
@@ -96,7 +97,6 @@ function build_contour_lines()
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
 		$MAP_ROOT/tmp/split/*.osm.pbf
-		$MAP_ROOT/typ/os50_mod.typ
 	cd $MAP_ROOT
 }
 
@@ -117,6 +117,7 @@ function build_ways_relations_pois()
 	$MKGMAP_JAVACMD \
 	$MKGMAP_JAVACMD_OPTIONS \
 	$SPLITTER \
+		--polygon-file=$MAP_ROOT/sri-lanka.poly \
 		$TEMP_LOC/sri-lanka-latest-no-coast-relations.osm.pbf	
 	cd $MAP_ROOT
 	
@@ -135,7 +136,6 @@ function build_ways_relations_pois()
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
 		$MAP_ROOT/tmp/split/*.osm.pbf
-		$MAP_ROOT/typ/os50_mod.typ
 	cd $MAP_ROOT
 }
 

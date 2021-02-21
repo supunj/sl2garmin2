@@ -10,5 +10,5 @@ max-jobs
 #Elevation
 show-profiles: 1
 dem-dists: 1656,9936,19872,26512,39768,52992,82800
-dem-interpolation: auto
+dem-interpolation: bilinear
 overview-dem-dist: 128000
