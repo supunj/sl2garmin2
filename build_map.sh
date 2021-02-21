@@ -48,8 +48,8 @@ function build_base_map()
 		--tf reject-relations \
 		--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
 		--used-node \
-		--write-pbf $TEMP_LOC/sri-lanka-latest-coastline-relations.osm.pbf
-
+		--write-pbf $TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
+	
 	cd $IMG_LOC
 	echo 'Building base map....'
 	IMG_FILE_NAME="`shuf -i 10000000-99999999 -n 1`"
@@ -66,7 +66,8 @@ function build_base_map()
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
-		$TEMP_LOC/sri-lanka-latest-coastline-relations.osm.pbf
+		$TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
+		$MAP_ROOT/typ/os50_mod.typ
 	cd $MAP_ROOT
 }
 
@@ -95,6 +96,7 @@ function build_contour_lines()
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
 		$MAP_ROOT/tmp/split/*.osm.pbf
+		$MAP_ROOT/typ/os50_mod.typ
 	cd $MAP_ROOT
 }
 
@@ -133,6 +135,7 @@ function build_ways_relations_pois()
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
 		$MAP_ROOT/tmp/split/*.osm.pbf
+		$MAP_ROOT/typ/os50_mod.typ
 	cd $MAP_ROOT
 }
 
@@ -153,7 +156,6 @@ function merge_all()
 		--product-id=$PID \
 		--series-name=$SNAME \
 		--area-name=$AREA \
-		--code-page=1252 \
 		--keep-going \
 		--gmapsupp \
 		--tdbfile \
