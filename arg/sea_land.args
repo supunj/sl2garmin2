@@ -1,11 +1,12 @@
 family-name: sl-base
-draw-priority: 5
+draw-priority: 0
 transparent
 lower-case
 keep-going
 generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-gaps=10,floodblocker,fbdebug
 no-tdbfile
 max-jobs
+ignore-osm-bounds
 
 #Elevation
 show-profiles: 1
