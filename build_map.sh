@@ -66,7 +66,7 @@ function build_base_map()
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
-		$TEMP_LOC/sri-lanka-latest-coastline.osm.pbf
+		$TEMP_LOC/sri-lanka-latest-coastline.osm.pbf	
 	cd $MAP_ROOT
 }
 
@@ -165,10 +165,35 @@ function merge_all()
 	cd $MAP_ROOT
 }
 
+function build_one_map()
+{
+	prepare
+	build_base_map
+	build_contour_lines
+	build_ways_relations_pois
+	merge_all
+}
+
+function build_individual_maps()
+{
+	prepare
+	build_base_map
+	merge_all
+	mv $IMG_LOC/mapset/gmapsupp.img $IMG_LOC/mapset/sl-base.img
+	rm $IMG_LOC/*.img $IMG_LOC/mapset/osmmap*
+	build_contour_lines
+	merge_all
+	mv $IMG_LOC/mapset/gmapsupp.img $IMG_LOC/mapset/sl-contour.img
+	rm $IMG_LOC/*.img $IMG_LOC/mapset/osmmap*
+	build_ways_relations_pois
+	merge_all
+	mv $IMG_LOC/mapset/gmapsupp.img $IMG_LOC/mapset/sl-road.img
+	mv $IMG_LOC/mapset/osmmap_mdr.img $IMG_LOC/mapset/sl-road_mdr.img
+	mv $IMG_LOC/mapset/osmmap.mdx $IMG_LOC/mapset/sl-road.mdx
+	rm $IMG_LOC/*.img $IMG_LOC/mapset/osmmap*
+}
+
 # ------------- Start -------------
-prepare
-build_base_map
-build_contour_lines
-build_ways_relations_pois
-merge_all
+build_individual_maps
+#build_one_map
 # ------------- End -------------
