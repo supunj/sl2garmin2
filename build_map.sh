@@ -61,8 +61,6 @@ function build_base_map()
 		--product-id=$PID \
 		--series-name=$SNAME \
 		--area-name=$AREA \
-		--dem=$MAP_ROOT/hgt \
-		--dem-poly=$MAP_ROOT/sri-lanka.poly \
 		--mapname=$IMG_FILE_NAME \
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
@@ -133,6 +131,8 @@ function build_ways_relations_pois()
 		--series-name=$SNAME \
 		--area-name=$AREA \
 		--mapname=$IMG_FILE_NAME \
+		--dem=$MAP_ROOT/hgt \
+		--dem-poly=$MAP_ROOT/sri-lanka.poly \
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
 		$MAP_ROOT/tmp/split/*.osm.pbf

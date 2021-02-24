@@ -1,5 +1,5 @@
 family-name: sl-base
-draw-priority: 0
+draw-priority: 90
 transparent
 lower-case
 keep-going
@@ -7,10 +7,3 @@ generate-sea: multipolygon,extend-sea-sectors,land-tag=natural=coastline,close-g
 no-tdbfile
 max-jobs
 ignore-osm-bounds
-
-#Elevation
-show-profiles: 1
-dem-dists: 1656,9936,19872,26512,39768,52992,82800
-#dem-dists: 1656,1656,19872,19872,39768,39768,82800
-dem-interpolation: auto
-overview-dem-dist: 128000
