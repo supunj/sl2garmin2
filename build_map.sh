@@ -11,10 +11,10 @@ function prepare()
 	OTHER_IMG_LOC=$MAP_ROOT/maps/img
 	
 	# Tools
-	MKGMAP=$MAP_ROOT/tools/mkgmap-r4601/mkgmap.jar
+	MKGMAP=$MAP_ROOT/tools/mkgmap-r4607/mkgmap.jar
 	OSMOSIS_LOC=$MAP_ROOT/tools/osmosis-0.48.3
 	OSMOSIS=$OSMOSIS_LOC/bin/osmosis
-	SPLITTER=$MAP_ROOT/tools/splitter-r597/splitter.jar
+	SPLITTER=$MAP_ROOT/tools/splitter-r598/splitter.jar
 
 	FID=53130
 	PID=1
@@ -62,6 +62,8 @@ function build_base_map()
 		--series-name=$SNAME \
 		--area-name=$AREA \
 		--mapname=$IMG_FILE_NAME \
+		--dem=$MAP_ROOT/hgt \
+		--dem-poly=$MAP_ROOT/sri-lanka.poly \
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
 		$TEMP_LOC/sri-lanka-latest-coastline.osm.pbf	
@@ -131,8 +133,6 @@ function build_ways_relations_pois()
 		--series-name=$SNAME \
 		--area-name=$AREA \
 		--mapname=$IMG_FILE_NAME \
-		--dem=$MAP_ROOT/hgt \
-		--dem-poly=$MAP_ROOT/sri-lanka.poly \
 		--style-file=$MAP_ROOT/style \
 		--style=lk \
 		$MAP_ROOT/tmp/split/*.osm.pbf

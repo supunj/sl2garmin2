@@ -1,5 +1,5 @@
 family-name: sl-contours
-draw-priority: 50
+draw-priority: 20
 #code-page: 1252
 transparent
 lower-case
