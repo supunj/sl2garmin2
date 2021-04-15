@@ -11,7 +11,7 @@ function prepare()
 	OTHER_IMG_LOC=$MAP_ROOT/maps/img
 	
 	# Tools
-	MKGMAP=$MAP_ROOT/tools/mkgmap-r4607/mkgmap.jar
+	MKGMAP=$MAP_ROOT/tools/mkgmap-r4655/mkgmap.jar
 	OSMOSIS_LOC=$MAP_ROOT/tools/osmosis-0.48.3
 	OSMOSIS=$OSMOSIS_LOC/bin/osmosis
 	SPLITTER=$MAP_ROOT/tools/splitter-r598/splitter.jar
@@ -193,7 +193,19 @@ function build_individual_maps()
 	rm $IMG_LOC/*.img $IMG_LOC/mapset/osmmap*
 }
 
+function build_road_map()
+{	
+	prepare
+	build_ways_relations_pois
+	merge_all
+	mv $IMG_LOC/mapset/gmapsupp.img $IMG_LOC/mapset/sl-road.img
+	mv $IMG_LOC/mapset/osmmap_mdr.img $IMG_LOC/mapset/sl-road_mdr.img
+	mv $IMG_LOC/mapset/osmmap.mdx $IMG_LOC/mapset/sl-road.mdx
+	rm $IMG_LOC/*.img $IMG_LOC/mapset/osmmap*
+}
+
 # ------------- Start -------------
 build_individual_maps
+#build_road_map
 #build_one_map
 # ------------- End -------------
