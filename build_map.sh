@@ -11,10 +11,10 @@ function prepare()
 	OTHER_IMG_LOC=$MAP_ROOT/maps/img
 	
 	# Tools
-	MKGMAP=$MAP_ROOT/tools/mkgmap-r4655/mkgmap.jar
+	MKGMAP=$MAP_ROOT/tools/mkgmap-r4816/mkgmap.jar
 	OSMOSIS_LOC=$MAP_ROOT/tools/osmosis-0.48.3
 	OSMOSIS=$OSMOSIS_LOC/bin/osmosis
-	SPLITTER=$MAP_ROOT/tools/splitter-r598/splitter.jar
+	SPLITTER=$MAP_ROOT/tools/splitter-r643/splitter.jar
 
 	FID=53130
 	PID=1
@@ -108,6 +108,7 @@ function build_ways_relations_pois()
         	--tf accept-nodes \
         	--tf accept-ways \
         	--tf accept-relations \
+        	--tf reject-relations name='Gulf of Mannar' \
         	--bounding-polygon file=$MAP_ROOT/sri-lanka.poly \
         	--write-pbf $TEMP_LOC/sri-lanka-latest-no-coast-relations.osm.pbf
         	

@@ -379,3 +379,7 @@ where
 	w.tags @> '"waterway"=>"dam"' :: hstore
 	and w.nodes[1] = w.nodes[array_length(w.nodes, 1)]
 	and array_length(w.nodes, 1) > 2
+	
+	
+select *
+from ways w 

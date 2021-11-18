@@ -22,8 +22,7 @@ location-autofill: is_in,nearest
 link-pois-to-ways
 process-destination
 process-exits
-check-roundabouts
-check-roundabout-flares
+report-roundabout-issues
 report-dead-ends: 2
 add-pois-to-lines
 
