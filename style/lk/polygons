@@ -15,6 +15,9 @@ leisure=* & sport=* & name!=* {add name='${sport}'}
 
 include 'inc/name';
 
+# Supun
+waterway=dam [0x24 resolution 20]
+
 aeroway=airport [0x07 resolution 20]
 aeroway=aerodrome [0x07 resolution 20]
 aeroway=runway & area=yes {name '${ref}'} [0x0e resolution 20]
@@ -31,8 +34,9 @@ building=school | building=School | building=college [0x0a resolution 22]
 office=educational_institution [0x0a resolution 22] 
 type=school [0x0a resolution 22]
 # amenity=supermarket is superceded by shop=supermarket or landuse=retail
-amenity=supermarket | shop=supermarket [0x35 resolution 20-23]
+amenity=supermarket | shop=supermarket | building=supermarket | building=retail [0x35 resolution 20]
 amenity=university [0x0a resolution 21]
+building=university [0x0a resolution 21]
 
 healthcare=hospital | amenity=hospital | amenity=clinic | amenity=pharmacy | building=hospital [0x0b resolution 22]
 healthcare=* | amenity=dentist | amenity=doctors | amenity=nursing_home [0x0b resolution 23]
@@ -41,13 +45,13 @@ leisure=common [0x1d resolution 21]
 leisure=garden [0x20 resolution 21]
 leisure=golf_course [0x18 resolution 21]
 leisure=ice_rink [0x19 resolution 22]
-leisure=nature_reserve [0x16 resolution 19]
+leisure=nature_reserve [0x16 resolution 19 continue]
 leisure=park [0x17 resolution 20]
 leisure=pitch [0x19 resolution 21]
 leisure=playground [0x17 resolution 22]
 leisure=recreation_ground [0x19 resolution 21]
 leisure=sports_center | leisure=sports_centre [0x19 resolution 20]
-leisure=stadium [0x19 resolution 20]
+leisure=stadium | building=stadium [0x19 resolution 20]
 leisure=track & area=yes [0x19 resolution 21]
 leisure=water_park [0x09 resolution 21]
 
@@ -56,7 +60,7 @@ place=suburb [0x02 resolution 19]
 
 shop=* {add name='${shop|subst:"_=> "}'} [0x08 resolution 22]
 
-building=garage | building='other(Garage)' [0x08 resolution 22]
+building=garage | building=garages | building='other(Garage)' [0x08 resolution 22]
 shop=car_repair [0x08 resolution 22]
 building=hotel | building=cabin [0x08 resolution 22]
 tourism=hotel | tourism=guest_house [0x08 resolution 22]
@@ -94,7 +98,7 @@ natural=water & water=lock [0x4c resolution 22 default_name 'Lock']
 natural=water & area_size() < 100000 [0x41 resolution 22]  # Small Lake
 natural=water [0x3c resolution 18]
 water=pond [0x3c resolution 18]
-landuse=aquaculture [0x3c resolution 18]
+landuse=aquaculture [0x09 resolution 18]
 natural=waterfall | waterway=waterfall [0x47 resolution 21]
 natural=sea {add mkgmap:skipSizeFilter=true; set mkgmap:drawLevel=2} [0x32 resolution 10]
 
@@ -105,7 +109,7 @@ waterway=* & waterway!=no & area!=no {add name='${waterway|subst:"_=> "}'} [0x3b
 
 landuse=allotments [0x4e resolution 21]
 landuse=cemetery | landuse=cemetary | amenity=grave_yard [0x1a resolution 21]
-landuse=commercial [0x0f resolution 19]
+landuse=commercial | building=commercial [0x0f resolution 19]
 landuse=construction [0x0c resolution 21]
 landuse=farm [0x26 resolution 22]
 
@@ -123,7 +127,7 @@ landuse=farmland [0x1c resolution 20]
 crop=* [0x1c resolution 20]
 
 landuse=farmyard | landuse=plant_nursery | landuse=greenhouse_horticulture [0x26 resolution 22]
-landuse=forest | landuse=wood [0x50 resolution 20]
+landuse=forest | landuse=wood | natural=wood | natural=tree_row [0x50 resolution 20]
 natural=wood | natural=tree_row [0x50 resolution 20]
 
 landuse=meadow [0x1c resolution 19]
@@ -137,10 +141,10 @@ landuse=military [0x04 resolution 19]
 landuse=quarry [0x0c resolution 19]
 landuse=recreation_ground [0x19 resolution 19]
 # dedicate resolution 24 for building=* instead of related landuse=*
-landuse=industrial [0x0c resolution 19-23]
+landuse=industrial | building=industrial [0x0c resolution 19]
 #landuse=residential [0x10 resolution 19-23]
 landuse=residential {delete landuse}
-landuse=retail [0x12 resolution 20-23]
+landuse=retail [0x12 resolution 20]
 landuse=village_green [0x15 resolution 20]
 landuse=vineyard [0x4e resolution 20]
 landuse=orchard [0x4e resolution 20]
@@ -152,7 +156,8 @@ military=danger_area [0x11 resolution 20]
 military=range [0x04 resolution 20]
 
 natural=scrub [0x4f resolution 20]
-natural=wood [0x50 resolution 20]
+#natural=wood [0x50 resolution 20]
+natural=bare_rock | natural=rock [0x12 resolution 20]
 
 # building tag should be last
 amenity=* & area!=no & amenity!=grave_yard {add name='${amenity|subst:"_=> "}'} [0x23 resolution 24]
@@ -162,7 +167,7 @@ landuse=construction [0x13 resolution 24]
 
 building=abandoned | building='under construction' [0x13 resolution 24]
 
-building=temple | building=pagoda | building=church [0x13 resolution 24]
+building=temple | building=pagoda | building=church | building=religious [0x13 resolution 24]
 landuse=religious [0x13 resolution 24]
 amenity=place_of_worship | amenity=church [0x13 resolution 24]
 
@@ -172,10 +177,10 @@ building=train_station | building=service | building=bus_station [0x13 resolutio
 building=Police | building=police [0x13 resolution 24]
 amenity=police [0x13 resolution 24]
 
-amenity=bank [0x13 resolution 24] 
+amenity=bank | building=bank [0x13 resolution 24] 
 atm=yes [0x13 resolution 24]
 
-building=public | building=government | building=community_centre | building=goverment [0x13 resolution 24]
+building=public | building=government | building=community_centre | building=goverment | building=abandoned [0x13 resolution 24]
 
 tourism=* & area!=no & waterway!=* {add name='${tourism|subst:"_=> "}'} [0x21 resolution 24]
 

@@ -16,8 +16,19 @@ abandoned=yes {deletealltags}  # old, depreciated, ambiguous, method of handling
 aeroway=runway & area!=yes {name '${ref}'} [0x27 resolution 20 continue]
 (aeroway=taxiway | aeroway=taxilane) & area!=yes {name '${ref}'} [0x27 resolution 24 continue]
 
-#Brides - supun
-#highway=* & bridge=yes [0x10102 continue]
+#Brides and embankments - supun
+highway=* & bridge=yes [0x10102 continue]
+highway=* & embankment=yes [0x34 continue]
+
+# Oneways - supun
+highway=* & oneway=yes [0x10601 continue]
+
+# Tunnels
+waterway=* & tunnel=yes [0x10403 continue]
+railway=* & tunnel=yes [0x10100 continue]
+
+# Dam
+waterway=dam [0x10506 resolution 22]
 
 # Assign the street name for house number search
 highway=* & name=* {set mkgmap:street='${name}'}
@@ -155,9 +166,6 @@ highway=* & construction=* & maxspeed!=* {add mkgmap:road-speed='-1'}
 # Lower the road speed of disused ways.
 highway=* & disused=yes & maxspeed!=* {add mkgmap:road-speed='-2'}
 
-# Oneways - supun
-highway=* & oneway=yes [0x1050e continue]
-
 # Ways sorted roughly by descending order of class
 highway=motorway & mkgmap:fast_road=yes [0x01 road_class=4 road_speed=7 resolution 14]
 highway=motorway [0x01 road_class=4 road_speed=7 resolution 15]
@@ -241,6 +249,9 @@ railway=platform [0x16 road_class=0 road_speed=0 resolution 23]
 # Railway lines, note that many devices display type 0x14 only at resolution 24
 (railway=rail | railway=tram | railway=disused | railway=subway | railway=narrow_gauge | railway=light_rail | railway=preserved) & !(tunnel=yes)
     [0x14 resolution 22]
+
+# Supun
+
 
 (man_made=cable | (man_made=* & man_made~'.*pipe.*')) & area!=yes & tunnel!=yes & location!=underground
     {name '${name} (${operator})' | '${name}' | '${operator}'} [0x28 resolution 23]

@@ -12,5 +12,6 @@ ignore-osm-bounds
 show-profiles: 1
 dem-dists: 1656,9936,19872,26512,39768,52992,82800
 #dem-dists: 1656,1656,19872,19872,39768,39768,82800
-dem-interpolation: auto
-overview-dem-dist: 128000
+dem-interpolation: bicubic
+#overview-dem-dist: 128000
+overview-dem-dist: 55000

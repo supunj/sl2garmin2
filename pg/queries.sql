@@ -192,7 +192,6 @@ from ways w
 where w.tags @> '"natural"=>"waterfall"' :: hstore
 
 
-
 select
 	w.tags -> 'highway',
 	count(*) as cnt,
@@ -229,6 +228,9 @@ where
 select *
 from relations r 
 where r.tags ? 'landuse'
+
+select distinct r.tags ? 'type'
+from relations r 
 
 select
 	tags->'landuse',
@@ -383,3 +385,16 @@ where
 	
 select *
 from ways w 
+
+select *
+from relations r 
+where r.tags @> '"natural"=>"bare_rock"' :: hstore
+
+
+select *
+from relations r 
+where r.user_id =813936
+
+select *
+from relations r 
+where r.tags @> '"natural"=>"bay"' :: hstore

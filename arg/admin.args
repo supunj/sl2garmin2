@@ -1,0 +1,13 @@
+family-name: sl-admin
+draw-priority: 10
+keep-going
+transparent
+max-jobs
+lower-case
+report-similar-arcs
+order-by-decreasing-area
+preserve-element-order
+name-tag-list: name:en,int_name,name
+no-merge-lines
+no-tdbfile
+ignore-osm-bounds
